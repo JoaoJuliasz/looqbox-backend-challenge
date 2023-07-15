@@ -7,7 +7,9 @@ import java.util.Optional;
 
 public interface IPokemonRepository {
 
-    List<String> findAll(Optional<String> name);
+    List<String> findAll(Optional<String> query);
+
+    List<Pokemon> findAllHighlight(Optional<String> query);
 
     void savePokemons(List<Pokemon> pokemonList);
 

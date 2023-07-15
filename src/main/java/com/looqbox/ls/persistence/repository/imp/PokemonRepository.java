@@ -19,7 +19,7 @@ public class PokemonRepository implements IPokemonRepository {
         List<String> filteredPokemons;
 
         var streamPokemons = pokemons.stream()
-                .map(p -> p.getName());
+                .map(Pokemon::getName);
 
         if (name.isPresent()) {
             streamPokemons = streamPokemons.filter(p -> p.toLowerCase().contains(name.get().toLowerCase()));
@@ -28,8 +28,31 @@ public class PokemonRepository implements IPokemonRepository {
         return filteredPokemons;
     }
 
+    public List<Pokemon> findAllHighlight(Optional<String> query) {
+
+        if (query.isPresent() && !query.get().equals("")) {
+            List<Pokemon> filteredPokemons;
+            var streamPokemons = pokemons.stream();
+
+            streamPokemons = streamPokemons
+                    .filter(p -> p.getName().toLowerCase().contains(query.get().toLowerCase()));
+
+            filteredPokemons = streamPokemons.collect(Collectors.toList());
+            filteredPokemons.forEach(p -> enrichPokemonHighlight(p, query.get()));
+            return filteredPokemons;
+        }
+
+        return pokemons;
+    }
+
     @Override
     public void savePokemons(List<Pokemon> pokemonList) {
-        pokemonList.forEach(p -> pokemons.add(p));
+        pokemons.addAll(pokemonList);
+    }
+
+    private static void enrichPokemonHighlight(Pokemon pokemon, String query) {
+        String name = pokemon.getName();
+        name = name.toLowerCase().replace(query, "<pre>" + query + "</pre>");
+        pokemon.setHighlight(name);
     }
 }

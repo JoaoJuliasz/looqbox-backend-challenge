@@ -17,8 +17,13 @@ public class PokemonService implements IPokemonService {
         this.pokemonResponsitory = pokemonResponsitory;
     }
 
-    public List<String> findAll(Optional<String> name) {
-        return pokemonResponsitory.findAll(name);
+    public List<String> findAll(Optional<String> query) {
+        return pokemonResponsitory.findAll(query);
+    }
+
+    @Override
+    public List<Pokemon> findAllHighlight(Optional<String> query) {
+        return pokemonResponsitory.findAllHighlight(query);
     }
 
     @Override

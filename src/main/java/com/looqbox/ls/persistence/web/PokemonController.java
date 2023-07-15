@@ -40,4 +40,9 @@ public class PokemonController {
         return pokemonService.findAll(query);
     }
 
+    @GetMapping(value = "/highlight")
+    public Collection<Pokemon> findAllHighlight(@RequestParam(required = false) Optional<String> query) {
+        return pokemonService.findAllHighlight(query);
+    }
+
 }

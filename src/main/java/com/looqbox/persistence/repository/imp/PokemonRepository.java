@@ -18,16 +18,14 @@ public class PokemonRepository implements IPokemonRepository {
 
     @Override
     public List<String> findAll(Optional<String> name, Optional<SortTypes> sort) {
-        List<String> filteredPokemons;
-
-        var streamPokemons = pokemons.stream()
-                .map(Pokemon::getName);
+        var streamPokemons = pokemons.stream().map(Pokemon::getName);
 
         if (name.isPresent()) {
-            streamPokemons = streamPokemons.filter(p -> p.toLowerCase().contains(name.get().toLowerCase()));
+            String lowercaseName = name.get().toLowerCase();
+            streamPokemons = streamPokemons.filter(p -> p.toLowerCase().contains(lowercaseName));
         }
 
-        filteredPokemons = streamPokemons.collect(Collectors.toList());
+        List<String> filteredPokemons = streamPokemons.collect(Collectors.toList());
         Sort.selectSort(filteredPokemons, sort);
         return filteredPokemons;
     }
@@ -35,11 +33,11 @@ public class PokemonRepository implements IPokemonRepository {
     public List<Pokemon> findAllHighlight(Optional<String> query, Optional<SortTypes> sort) {
 
         if (query.isPresent() && !query.get().equals("")) {
-            List<Pokemon> filteredPokemons;
-            var streamPokemons = pokemons.stream();
-            streamPokemons = streamPokemons
-                    .filter(p -> p.getName().toLowerCase().contains(query.get().toLowerCase()));
-            filteredPokemons = streamPokemons.collect(Collectors.toList());
+            String lowercaseQuery = query.get().toLowerCase();
+            List<Pokemon> filteredPokemons = pokemons.stream()
+                    .filter(p -> p.getName().toLowerCase().contains(lowercaseQuery))
+                    .collect(Collectors.toList());
+
             filteredPokemons.forEach(p -> enrichPokemonHighlight(p, query.get()));
             Sort.selectSort(filteredPokemons, sort);
 

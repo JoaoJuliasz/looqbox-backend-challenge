@@ -2,6 +2,8 @@ package com.looqbox.ls.persistence.repository.imp;
 
 import com.looqbox.ls.persistence.model.Pokemon;
 import com.looqbox.ls.persistence.repository.IPokemonRepository;
+import com.looqbox.ls.sorting.imp.Sort;
+import com.looqbox.ls.sorting.SortTypes;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ public class PokemonRepository implements IPokemonRepository {
     List<Pokemon> pokemons = new ArrayList<>();
 
     @Override
-    public List<String> findAll(Optional<String> name) {
+    public List<String> findAll(Optional<String> name, Optional<SortTypes> sort) {
         List<String> filteredPokemons;
 
         var streamPokemons = pokemons.stream()
@@ -25,10 +27,11 @@ public class PokemonRepository implements IPokemonRepository {
             streamPokemons = streamPokemons.filter(p -> p.toLowerCase().contains(name.get().toLowerCase()));
         }
         filteredPokemons = streamPokemons.collect(Collectors.toList());
+        Sort.selectSort(filteredPokemons, sort);
         return filteredPokemons;
     }
 
-    public List<Pokemon> findAllHighlight(Optional<String> query) {
+    public List<Pokemon> findAllHighlight(Optional<String> query, Optional<SortTypes> sort) {
 
         if (query.isPresent() && !query.get().equals("")) {
             List<Pokemon> filteredPokemons;
@@ -39,9 +42,10 @@ public class PokemonRepository implements IPokemonRepository {
 
             filteredPokemons = streamPokemons.collect(Collectors.toList());
             filteredPokemons.forEach(p -> enrichPokemonHighlight(p, query.get()));
+            Sort.selectSort(filteredPokemons, sort);
             return filteredPokemons;
         }
-
+        Sort.selectSort(pokemons, sort);
         return pokemons;
     }
 

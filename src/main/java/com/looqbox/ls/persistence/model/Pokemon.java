@@ -1,9 +1,9 @@
 package com.looqbox.ls.persistence.model;
 
-public class Pokemon {
+public class Pokemon implements Comparable<Pokemon>{
 
-    String name;
-    String highlight;
+    private String name;
+    private String highlight;
 
     public Pokemon() {}
 
@@ -32,18 +32,8 @@ public class Pokemon {
         this.highlight = highlight;
     }
 
-
-    //
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        Pokemon pokemon = (Pokemon) o;
-//        return Objects.equals(name, pokemon.name);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(name);
-//    }
+    public int compareTo(Pokemon other) {
+        // Implement the comparison logic based on your requirements
+        return this.getName().compareTo(other.getName());
+    }
 }

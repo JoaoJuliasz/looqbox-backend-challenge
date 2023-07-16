@@ -1,4 +1,4 @@
-package com.looqbox.ls.persistence.repository;
+package com.looqbox.ls.service;
 
 import com.looqbox.ls.persistence.model.Pokemon;
 import com.looqbox.ls.sorting.SortTypes;
@@ -6,7 +6,7 @@ import com.looqbox.ls.sorting.SortTypes;
 import java.util.List;
 import java.util.Optional;
 
-public interface IPokemonRepository {
+public interface IPokemonService {
 
     List<String> findAll(Optional<String> query, Optional<SortTypes> sort);
 

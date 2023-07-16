@@ -1,8 +1,9 @@
-package com.looqbox.ls.persistence.web;
+package com.looqbox.ls.web;
 
 import com.looqbox.ls.persistence.model.Pokemon;
 import com.looqbox.ls.persistence.model.PokemonRequest;
-import com.looqbox.ls.persistence.service.IPokemonService;
+import com.looqbox.ls.service.IPokemonService;
+import com.looqbox.ls.sorting.SortTypes;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,13 +37,15 @@ public class PokemonController {
     }
 
     @GetMapping
-    public Collection<String> findAll(@RequestParam(required = false) Optional<String> query) {
-        return pokemonService.findAll(query);
+    public Collection<String> findAll(@RequestParam(required = false) Optional<String> query, @RequestParam(required = false) Optional<SortTypes> sort) {
+        return pokemonService.findAll(query, sort);
     }
 
     @GetMapping(value = "/highlight")
-    public Collection<Pokemon> findAllHighlight(@RequestParam(required = false) Optional<String> query) {
-        return pokemonService.findAllHighlight(query);
+    public Collection<Pokemon> findAllHighlight(
+            @RequestParam(required = false) Optional<String> query,
+            @RequestParam(name = "sort", required = false, defaultValue = "alphabetical") Optional<SortTypes> sort) {
+        return pokemonService.findAllHighlight(query, sort);
     }
 
 }

@@ -26,6 +26,7 @@ public class PokemonRepository implements IPokemonRepository {
         if (name.isPresent()) {
             streamPokemons = streamPokemons.filter(p -> p.toLowerCase().contains(name.get().toLowerCase()));
         }
+
         filteredPokemons = streamPokemons.collect(Collectors.toList());
         Sort.selectSort(filteredPokemons, sort);
         return filteredPokemons;
@@ -36,15 +37,15 @@ public class PokemonRepository implements IPokemonRepository {
         if (query.isPresent() && !query.get().equals("")) {
             List<Pokemon> filteredPokemons;
             var streamPokemons = pokemons.stream();
-
             streamPokemons = streamPokemons
                     .filter(p -> p.getName().toLowerCase().contains(query.get().toLowerCase()));
-
             filteredPokemons = streamPokemons.collect(Collectors.toList());
             filteredPokemons.forEach(p -> enrichPokemonHighlight(p, query.get()));
             Sort.selectSort(filteredPokemons, sort);
+
             return filteredPokemons;
         }
+
         Sort.selectSort(pokemons, sort);
         return pokemons;
     }

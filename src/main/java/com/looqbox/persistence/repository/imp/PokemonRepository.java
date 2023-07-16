@@ -1,9 +1,9 @@
-package com.looqbox.ls.persistence.repository.imp;
+package com.looqbox.persistence.repository.imp;
 
-import com.looqbox.ls.persistence.model.Pokemon;
-import com.looqbox.ls.persistence.repository.IPokemonRepository;
-import com.looqbox.ls.sorting.imp.Sort;
-import com.looqbox.ls.sorting.SortTypes;
+import com.looqbox.persistence.model.Pokemon;
+import com.looqbox.persistence.repository.IPokemonRepository;
+import com.looqbox.sorting.imp.Sort;
+import com.looqbox.sorting.SortTypes;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

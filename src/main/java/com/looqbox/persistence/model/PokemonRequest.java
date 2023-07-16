@@ -1,4 +1,4 @@
-package com.looqbox.ls.persistence.model;
+package com.looqbox.persistence.model;
 
 import java.util.List;
 

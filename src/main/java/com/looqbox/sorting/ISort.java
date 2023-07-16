@@ -1,4 +1,4 @@
-package com.looqbox.ls.sorting;
+package com.looqbox.sorting;
 
 import java.util.List;
 

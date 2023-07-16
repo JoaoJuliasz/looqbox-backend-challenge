@@ -1,7 +1,7 @@
-package com.looqbox.ls.persistence.repository;
+package com.looqbox.persistence.repository;
 
-import com.looqbox.ls.persistence.model.Pokemon;
-import com.looqbox.ls.sorting.SortTypes;
+import com.looqbox.persistence.model.Pokemon;
+import com.looqbox.sorting.SortTypes;
 
 import java.util.List;
 import java.util.Optional;

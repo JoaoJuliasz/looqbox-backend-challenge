@@ -1,4 +1,4 @@
-package com.looqbox.ls.config;
+package com.looqbox.config;
 
 import org.springframework.context.annotation.Configuration;
 

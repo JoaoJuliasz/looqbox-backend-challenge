@@ -1,7 +1,7 @@
-package com.looqbox.ls.sorting.imp;
+package com.looqbox.sorting.imp;
 
-import com.looqbox.ls.persistence.model.Pokemon;
-import com.looqbox.ls.sorting.ISort;
+import com.looqbox.persistence.model.Pokemon;
+import com.looqbox.sorting.ISort;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.looqbox.ls.sorting;
+package com.looqbox.sorting;
 
 public enum SortTypes {
     alphabetical, length

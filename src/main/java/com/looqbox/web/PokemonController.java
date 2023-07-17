@@ -26,7 +26,7 @@ public class PokemonController {
     }
 
     @GetMapping
-    public Collection<String> findAll(@RequestParam(required = false) Optional<String> query, @RequestParam(required = false) Optional<SortTypes> sort) {
+    public Collection<String> findAll(@RequestParam(required = false) Optional<String> query, @RequestParam(required = false, defaultValue = "alphabetical") Optional<SortTypes> sort) {
 
         List<String> foundPokemons = pokemonService.findAll(query, sort);
 

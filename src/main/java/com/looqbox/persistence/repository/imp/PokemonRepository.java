@@ -58,4 +58,5 @@ public class PokemonRepository implements IPokemonRepository {
         name = name.toLowerCase().replace(query, "<pre>" + query + "</pre>");
         pokemon.setHighlight(name);
     }
+
 }

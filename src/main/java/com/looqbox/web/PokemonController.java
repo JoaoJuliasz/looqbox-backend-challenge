@@ -1,6 +1,7 @@
 package com.looqbox.web;
 
 import com.looqbox.persistence.model.Pokemon;
+import com.looqbox.persistence.model.dto.ResponsePokemon;
 import com.looqbox.service.IPokemonService;
 import com.looqbox.sorting.SortTypes;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,18 +26,18 @@ public class PokemonController {
     }
 
     @GetMapping
-    public Collection<String> findAll(@RequestParam(required = false) Optional<String> query, @RequestParam(required = false, defaultValue = "alphabetical") Optional<SortTypes> sort) {
+    public ResponsePokemon<String> findAll(@RequestParam(required = false) Optional<String> query, @RequestParam(required = false, defaultValue = "alphabetical") Optional<SortTypes> sort) {
 
         List<String> foundPokemons = pokemonService.findAll(query, sort);
 
         if (foundPokemons.size() == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        return foundPokemons;
+        return convertToResponse(foundPokemons);
     }
 
     @GetMapping(value = "/highlight")
-    public Collection<Pokemon> findAllHighlight(
+    public ResponsePokemon<Pokemon> findAllHighlight(
             @RequestParam(required = false) Optional<String> query,
             @RequestParam(name = "sort", required = false, defaultValue = "alphabetical") Optional<SortTypes> sort) {
 
@@ -47,6 +47,11 @@ public class PokemonController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
 
-        return foundPokemons;
+        return convertToResponse(foundPokemons);
+    }
+
+    private static <T> ResponsePokemon<T> convertToResponse(List<T> foundPokemons) {
+        ResponsePokemon<T> responsePokemon = new ResponsePokemon<T>(foundPokemons);
+        return responsePokemon;
     }
 }

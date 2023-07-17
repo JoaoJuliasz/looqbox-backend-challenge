@@ -9,6 +9,7 @@ This endpoint retrieves a list of Pokémon based on optional parameters and retu
 **Optional Request Parameters:**
 
 sort (string): Specifies the sorting order of the Pokémon list. Valid values are length or alphabetical.
+
 query (string): Filters the Pokémon list based on a search query.
 
 **Example Request:**
@@ -32,6 +33,7 @@ Alongside the pokémon name, the response also has a highlight, the substring th
 **Optional Request Parameters:**
 
 sort (string): Specifies the sorting order of the Pokémon list. Valid values are length or alphabetical.
+
 query (string): Filters the Pokémon list based on a search query.
 
 **Example Request:**
@@ -52,3 +54,17 @@ query (string): Filters the Pokémon list based on a search query.
     ]
 }
 ``` 
+## Api Diagram
+```mermaid
+flowchart TD
+    User{User}--GET /pokemons --> A(PokemonController.findAll)
+    User{User} --GET /pokemons/highlight --> B(PokemonController.findAll)
+    A --> AService(PokemonService.findAll)
+    AService --> ARepository(PokemonRepository.findAll)
+    ARepository --> AResult([Pokemons names list])
+    B --> BService(PokemonService.findAll)
+    AService -->  PokeApi[(PokeApi)]
+    BService -->  PokeApi
+    BService --> BRepository(PokemonRepository.findAll)
+    BRepository --> BResult([Pokemons with highlight list])
+```

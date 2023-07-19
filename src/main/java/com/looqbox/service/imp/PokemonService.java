@@ -26,17 +26,16 @@ public class PokemonService implements IPokemonService {
         fetchPokemons();
     }
 
-    @Cacheable("pokemons")
     public List<String> findAll(String query, SortTypes sortType) {
         return pokemonRepository.findAll(query, sortType);
     }
 
-    @Cacheable("pokemons-highlight")
     @Override
     public List<Pokemon> findAllHighlight(String query, SortTypes sort) {
         return pokemonRepository.findAllHighlight(query, sort);
     }
 
+    @Cacheable("pokemons")
     @Override
     public void savePokemons(List<Pokemon> pokemonList) {
         this.pokemonRepository.savePokemons(pokemonList);

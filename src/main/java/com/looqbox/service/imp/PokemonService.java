@@ -1,7 +1,7 @@
 package com.looqbox.service.imp;
 
-import com.looqbox.persistence.model.Pokemon;
-import com.looqbox.persistence.model.PokemonRequest;
+import com.looqbox.persistence.model.dto.Pokemon;
+import com.looqbox.persistence.model.dto.PokemonRequest;
 import com.looqbox.persistence.repository.IPokemonRepository;
 import com.looqbox.service.IPokemonService;
 import com.looqbox.sorting.SortTypes;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PokemonService implements IPokemonService {
@@ -19,7 +18,7 @@ public class PokemonService implements IPokemonService {
 
     private final RestTemplate restTemplate;
 
-    private IPokemonRepository pokemonRepository;
+    private final IPokemonRepository pokemonRepository;
 
     public PokemonService(IPokemonRepository pokemonRepository, RestTemplateBuilder builder) {
         this.pokemonRepository = pokemonRepository;
@@ -28,13 +27,13 @@ public class PokemonService implements IPokemonService {
     }
 
     @Cacheable("pokemons")
-    public List<String> findAll(Optional<String> query, Optional<SortTypes> sortType) {
+    public List<String> findAll(String query, SortTypes sortType) {
         return pokemonRepository.findAll(query, sortType);
     }
 
     @Cacheable("pokemons-highlight")
     @Override
-    public List<Pokemon> findAllHighlight(Optional<String> query, Optional<SortTypes> sort) {
+    public List<Pokemon> findAllHighlight(String query, SortTypes sort) {
         return pokemonRepository.findAllHighlight(query, sort);
     }
 

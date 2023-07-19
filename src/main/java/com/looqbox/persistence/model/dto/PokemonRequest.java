@@ -1,4 +1,4 @@
-package com.looqbox.persistence.model;
+package com.looqbox.persistence.model.dto;
 
 import java.util.List;
 

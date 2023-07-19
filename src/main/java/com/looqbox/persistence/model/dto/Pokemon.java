@@ -1,4 +1,4 @@
-package com.looqbox.persistence.model;
+package com.looqbox.persistence.model.dto;
 
 public class Pokemon implements Comparable<Pokemon>{
 

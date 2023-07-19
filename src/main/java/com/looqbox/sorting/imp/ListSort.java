@@ -1,16 +1,20 @@
 package com.looqbox.sorting.imp;
 
-import com.looqbox.persistence.model.Pokemon;
-import com.looqbox.sorting.ISort;
+import com.looqbox.persistence.model.dto.Pokemon;
+import com.looqbox.sorting.SortTypes;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListSort implements ISort {
+public class ListSort {
+
+    public <T extends Comparable<T>> void selectSort(List<T> list, SortTypes sort) {
+        sortList(list, sort.name().equalsIgnoreCase(SortTypes.length.name()));
+    }
 
     //The sort method chosen is merge sort
     //It is O(n log n)
-    public <T extends Comparable<T>> void sortList(List<T> list, boolean sortByLength) {
+    private <T extends Comparable<T>> void sortList(List<T> list, boolean sortByLength) {
         if (list == null || list.size() <= 1) {
             return; // Base case: already sorted or empty list
         }
@@ -20,7 +24,7 @@ public class ListSort implements ISort {
 
     //Divide array into sublists, until they have only one element
     //After it, merge the sublists, producing one sorted array
-    private static <T extends Comparable<T>> void mergeSort(List<T> list, int left, int right, boolean sortByLength) {
+    private <T extends Comparable<T>> void mergeSort(List<T> list, int left, int right, boolean sortByLength) {
         if (left < right) {
             int mid = (left + right) / 2;
 
@@ -31,7 +35,7 @@ public class ListSort implements ISort {
         }
     }
 
-    private static <T extends Comparable<T>> void merge(List<T> list, int leftIndex, int midIndex, int rightIndex, boolean sortByLength) {
+    private <T extends Comparable<T>> void merge(List<T> list, int leftIndex, int midIndex, int rightIndex, boolean sortByLength) {
         // Create left and right sublists
         List<T> leftSubList = new ArrayList<>(list.subList(leftIndex, midIndex + 1));
         List<T> rightSubList = new ArrayList<>(list.subList(midIndex + 1, rightIndex + 1));

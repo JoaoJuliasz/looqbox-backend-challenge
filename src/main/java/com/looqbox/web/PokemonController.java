@@ -1,32 +1,34 @@
 package com.looqbox.web;
 
-import com.looqbox.persistence.model.Pokemon;
-import com.looqbox.persistence.model.dto.ResponsePokemon;
+import com.looqbox.persistence.model.dto.Pokemon;
 import com.looqbox.service.IPokemonService;
 import com.looqbox.sorting.SortTypes;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/pokemons")
 public class PokemonController {
 
-    IPokemonService pokemonService;
+    private final IPokemonService pokemonService;
 
-    public PokemonController(IPokemonService pokemonService, RestTemplateBuilder builder) {
+    public PokemonController(IPokemonService pokemonService) {
         this.pokemonService = pokemonService;
     }
 
     @GetMapping
-    public ResponsePokemon<String> findAll(@RequestParam(required = false) Optional<String> query, @RequestParam(required = false, defaultValue = "alphabetical") Optional<SortTypes> sort) {
+    public ResponseEntity<Map<String, List<String>>> findAll(
+            @RequestParam(required = false, defaultValue = "") String query,
+            @RequestParam(required = false, defaultValue = "alphabetical") SortTypes sort) {
 
         List<String> foundPokemons = pokemonService.findAll(query, sort);
 
@@ -37,9 +39,9 @@ public class PokemonController {
     }
 
     @GetMapping(value = "/highlight")
-    public ResponsePokemon<Pokemon> findAllHighlight(
-            @RequestParam(required = false) Optional<String> query,
-            @RequestParam(name = "sort", required = false, defaultValue = "alphabetical") Optional<SortTypes> sort) {
+    public ResponseEntity<Map<String, List<Pokemon>>> findAllHighlight(
+            @RequestParam(required = false, defaultValue = "") String query,
+            @RequestParam(name = "sort", required = false, defaultValue = "alphabetical") SortTypes sort) {
 
         List<Pokemon> foundPokemons = pokemonService.findAllHighlight(query, sort);
 
@@ -50,8 +52,10 @@ public class PokemonController {
         return convertToResponse(foundPokemons);
     }
 
-    private static <T> ResponsePokemon<T> convertToResponse(List<T> foundPokemons) {
-        ResponsePokemon<T> responsePokemon = new ResponsePokemon<T>(foundPokemons);
-        return responsePokemon;
+    private static <T> ResponseEntity<Map<String, List<T>>> convertToResponse(List<T> foundPokemons) {
+        Map<String, List<T>> responsePokemon = new HashMap<>() {{
+            put("results", foundPokemons);
+        }};
+        return ResponseEntity.ok(responsePokemon);
     }
 }

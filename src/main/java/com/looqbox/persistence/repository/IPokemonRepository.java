@@ -1,16 +1,15 @@
 package com.looqbox.persistence.repository;
 
-import com.looqbox.persistence.model.Pokemon;
+import com.looqbox.persistence.model.dto.Pokemon;
 import com.looqbox.sorting.SortTypes;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IPokemonRepository {
 
-    List<String> findAll(Optional<String> query, Optional<SortTypes> sort);
+    List<String> findAll(String query, SortTypes sort);
 
-    List<Pokemon> findAllHighlight(Optional<String> query, Optional<SortTypes> sort);
+    List<Pokemon> findAllHighlight(String query, SortTypes sort);
 
     void savePokemons(List<Pokemon> pokemonList);
 

@@ -25,9 +25,10 @@ public class PokemonRepository implements IPokemonFunctionalities {
     @Override
     public List<String> findAll(String query, SortTypes sort) {
         List<String> filteredPokemons = new ArrayList<>();
+        String lowercaseQuery = query.toLowerCase();
 
         for(String key: pokemonMap.keySet()) {
-            if(key.contains(query)) {
+            if(key.toLowerCase().contains(lowercaseQuery)) {
                 filteredPokemons.add(key);
             }
         }
@@ -39,11 +40,12 @@ public class PokemonRepository implements IPokemonFunctionalities {
     public List<Pokemon> findAllHighlight(String query, SortTypes sort) {
 
         List<Pokemon> filteredPokemons = new ArrayList<>();
+        String lowercaseQuery = query.toLowerCase();
 
         for(String key: pokemonMap.keySet()) {
-            if(key.contains(query)) {
+            if(key.toLowerCase().contains(lowercaseQuery)) {
                 if(!query.isEmpty()) {
-                    enrichPokemonHighlight(pokemonMap.get(key), query);
+                    enrichPokemonHighlight(pokemonMap.get(key), lowercaseQuery);
                 }
                 filteredPokemons.add(pokemonMap.get(key));
             }

@@ -1,7 +1,7 @@
 package com.looqbox;
 
 import com.looqbox.persistence.model.dto.Pokemon;
-import com.looqbox.service.IPokemonService;
+import com.looqbox.core.IPokemonFunctionalities;
 import com.looqbox.sorting.SortTypes;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class PokemonServiceTest {
 
     @Autowired
-    IPokemonService pokemonService;
+    IPokemonFunctionalities pokemonService;
 
     @Test
     public void findAndLengthSortPokemonTest_thenOk() {

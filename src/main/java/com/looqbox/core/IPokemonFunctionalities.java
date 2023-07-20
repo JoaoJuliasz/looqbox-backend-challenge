@@ -1,11 +1,11 @@
-package com.looqbox.service;
+package com.looqbox.core;
 
 import com.looqbox.persistence.model.dto.Pokemon;
 import com.looqbox.sorting.SortTypes;
 
 import java.util.List;
 
-public interface IPokemonService {
+public interface IPokemonFunctionalities {
 
     List<String> findAll(String query, SortTypes sort);
 

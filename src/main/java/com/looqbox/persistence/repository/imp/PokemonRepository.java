@@ -1,19 +1,20 @@
 package com.looqbox.persistence.repository.imp;
 
+import com.looqbox.core.IPokemonFunctionalities;
 import com.looqbox.persistence.model.dto.Pokemon;
-import com.looqbox.persistence.repository.IPokemonRepository;
 import com.looqbox.sorting.SortTypes;
 import com.looqbox.sorting.imp.ListSort;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 @Repository
-public class PokemonRepository implements IPokemonRepository {
+public class PokemonRepository implements IPokemonFunctionalities {
 
-    final List<Pokemon> pokemons = new ArrayList<>();
+    final Map<String, Pokemon> pokemonMap = new HashMap<>();
 
     final ListSort listSort;
 
@@ -23,39 +24,38 @@ public class PokemonRepository implements IPokemonRepository {
 
     @Override
     public List<String> findAll(String query, SortTypes sort) {
-        var streamPokemons = pokemons.stream().map(Pokemon::getName);
+        List<String> filteredPokemons = new ArrayList<>();
 
-        if (!query.isEmpty()) {
-            String lowercaseName = query.toLowerCase();
-            streamPokemons = streamPokemons.filter(p -> p.toLowerCase().contains(lowercaseName));
+        for(String key: pokemonMap.keySet()) {
+            if(key.contains(query)) {
+                filteredPokemons.add(key);
+            }
         }
 
-        List<String> filteredPokemons = streamPokemons.collect(Collectors.toList());
         listSort.selectSort(filteredPokemons, sort);
         return filteredPokemons;
     }
 
     public List<Pokemon> findAllHighlight(String query, SortTypes sort) {
 
-        if (!query.isEmpty() && !query.equals("")) {
-            String lowercaseQuery = query.toLowerCase();
-            List<Pokemon> filteredPokemons = pokemons.stream()
-                    .filter(p -> p.getName().toLowerCase().contains(lowercaseQuery))
-                    .collect(Collectors.toList());
+        List<Pokemon> filteredPokemons = new ArrayList<>();
 
-            filteredPokemons.forEach(p -> enrichPokemonHighlight(p, query));
-            listSort.selectSort(filteredPokemons, sort);
-
-            return filteredPokemons;
+        for(String key: pokemonMap.keySet()) {
+            if(key.contains(query)) {
+                if(!query.isEmpty()) {
+                    enrichPokemonHighlight(pokemonMap.get(key), query);
+                }
+                filteredPokemons.add(pokemonMap.get(key));
+            }
         }
-
-        listSort.selectSort(pokemons, sort);
-        return pokemons;
+        listSort.selectSort(filteredPokemons, sort);
+        return filteredPokemons;
     }
 
     @Override
     public void savePokemons(List<Pokemon> pokemonList) {
-        pokemons.addAll(pokemonList);
+        pokemonList.stream()
+                .forEach(s -> pokemonMap.put(s.getName(), s));
     }
 
     private static void enrichPokemonHighlight(Pokemon pokemon, String query) {

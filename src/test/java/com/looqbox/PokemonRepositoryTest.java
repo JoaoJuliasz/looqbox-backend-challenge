@@ -3,58 +3,43 @@ package com.looqbox;
 import com.looqbox.persistence.model.dto.Pokemon;
 import com.looqbox.persistence.repository.imp.PokemonRepository;
 import com.looqbox.sorting.SortTypes;
-import com.looqbox.sorting.imp.ListSort;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.TestInstance;
 
-import java.lang.reflect.Field;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PokemonRepositoryTest {
 
-    @Autowired
-    private ListSort listSort;
+    private final PokemonRepository pokemonRepository = new PokemonRepository();
 
-    @Autowired
-    private PokemonRepository pokemonRepository;
+    @BeforeAll
+    public void setUp() {
+        List<Pokemon> pokemonsList = Arrays.asList(
+                new Pokemon("pikachu"),
+                new Pokemon("charmander"),
+                new Pokemon("articuno")
+        );
 
-    @BeforeEach
-    void setUp() throws IllegalAccessException, NoSuchFieldException {
-        MockitoAnnotations.openMocks(this);
-
-        Field pokemonMapField = null;
-        pokemonMapField = PokemonRepository.class.getDeclaredField("pokemonMap");
-
-        pokemonMapField.setAccessible(true);
-
-        Map<String, Pokemon> pokemonMap = new HashMap<>();
-        pokemonMap.put("pikachu", new Pokemon("pikachu"));
-        pokemonMap.put("charmander", new Pokemon("charmander"));
-        pokemonMap.put("articuno", new Pokemon("articuno"));
-
-        pokemonMapField.set(pokemonRepository, pokemonMap);
+        pokemonRepository.savePokemons(pokemonsList);
     }
 
     @Test
-    void findAllOnePokemon() {
+    public void findAllOnePokemon() {
         String query = "pi";
         SortTypes sort = SortTypes.length;
-        List<String> expectedResults = Arrays.asList("pikachu");
+        List<String> expectedResults = Collections.singletonList("pikachu");
         List<String> results = pokemonRepository.findAll(query, sort);
         assertEquals(expectedResults, results);
     }
 
     @Test
-    void findAllMultiplePokemon() {
+    public void findAllMultiplePokemon() {
         String query = "ar";
         SortTypes sort = SortTypes.alphabetical;
         List<String> expectedResults = Arrays.asList("articuno", "charmander");
@@ -63,7 +48,7 @@ public class PokemonRepositoryTest {
     }
 
     @Test
-    void findAllNoMatchPokemons() {
+    public void findAllNoMatchPokemons() {
         String query = "xyz";
         SortTypes sort = SortTypes.alphabetical;
         List<String> expectedResults = Arrays.asList();
@@ -72,7 +57,7 @@ public class PokemonRepositoryTest {
     }
 
     @Test
-    void findAllHighlightOnePokemon() {
+    public void findAllHighlightOnePokemon() {
         String query = "pi";
         SortTypes sort = SortTypes.length;
         Pokemon pikachu = new Pokemon("pikachu", "<pre>pi</pre>kachu");
@@ -82,7 +67,7 @@ public class PokemonRepositoryTest {
     }
 
     @Test
-    void findAllHighlightMultiplePokemons() {
+    public void findAllHighlightMultiplePokemons() {
         String query = "ar";
         SortTypes sort = SortTypes.alphabetical;
         Pokemon charmander = new Pokemon("charmander", "ch<pre>ar</pre>mander");
@@ -93,7 +78,7 @@ public class PokemonRepositoryTest {
     }
 
     @Test
-    void findAllHighlightNoMatchPokemons() {
+    public void findAllHighlightNoMatchPokemons() {
         String query = "xyz";
         SortTypes sort = SortTypes.alphabetical;
         List<Pokemon> expectedResults = Arrays.asList();

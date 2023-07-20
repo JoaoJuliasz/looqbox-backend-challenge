@@ -57,7 +57,7 @@ query (string): Filters the Pokémon list based on a search query.
 
 ## Sort Algorithm
 The sort method chosen is Merge Sort.
-It is **O(n log n)** in all the cases.
+It has **O(n log n)** in all the cases.
 
 **How it works**
 

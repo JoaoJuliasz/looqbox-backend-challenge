@@ -14,13 +14,9 @@ import java.util.Map;
 @Repository
 public class PokemonRepository implements IPokemonFunctionalities {
 
-    final Map<String, Pokemon> pokemonMap = new HashMap<>();
+    private final Map<String, Pokemon> pokemonMap = new HashMap<>();
 
-    final ListSort listSort;
-
-    public PokemonRepository(ListSort listSort) {
-        this.listSort = listSort;
-    }
+    private final ListSort listSort = new ListSort();
 
     @Override
     public List<String> findAll(String query, SortTypes sort) {

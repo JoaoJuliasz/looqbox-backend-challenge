@@ -40,7 +40,7 @@ public class PokemonController {
     @GetMapping(value = "/highlight")
     public Map<String, List<Pokemon>> findAllHighlight(
             @RequestParam(required = false, defaultValue = "") String query,
-            @RequestParam(name = "sort", required = false, defaultValue = "alphabetical") SortTypes sort) {
+            @RequestParam(required = false, defaultValue = "alphabetical") SortTypes sort) {
 
         List<Pokemon> foundPokemons = pokemonService.findAllHighlight(query, sort);
         if (foundPokemons.size() == 0) {

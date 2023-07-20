@@ -54,6 +54,16 @@ query (string): Filters the Pokémon list based on a search query.
     ]
 }
 ``` 
+
+## Sort Algorithm
+The sort method chosen is Merge Sort.
+It is **O(n log n)** in all the cases.
+
+**How it works**
+
+Divide array into sublists, until they have only one element.
+After it, merge the sublists, producing one sorted array
+
 ## Api Diagram
 ```mermaid
 flowchart TD

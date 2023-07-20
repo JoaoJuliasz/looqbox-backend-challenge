@@ -35,7 +35,7 @@ public class PokemonRepositoryTest {
         pokemonMapField = PokemonRepository.class.getDeclaredField("pokemonMap");
 
         pokemonMapField.setAccessible(true);
-        // Set up test data
+
         Map<String, Pokemon> pokemonMap = new HashMap<>();
         pokemonMap.put("pikachu", new Pokemon("pikachu"));
         pokemonMap.put("charmander", new Pokemon("charmander"));

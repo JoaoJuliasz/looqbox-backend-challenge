@@ -1,10 +1,9 @@
 package com.looqbox;
 
+import com.looqbox.persistence.model.dto.Pokemon;
 import com.looqbox.sorting.SortTypes;
 import com.looqbox.sorting.imp.ListSort;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,14 +11,12 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@SpringBootTest
 public class ListSortTest {
 
-    @Autowired
-    ListSort listSort;
+    ListSort listSort = new ListSort();
 
     @Test
-    public void sortListByLength_thenOk() {
+    public void sortStringsListByLength_thenOk() {
 
         List<String> stringsList = Arrays.asList("Samantha", "Emily", "Ben", "Oliver");
         listSort.selectSort(stringsList, SortTypes.length);
@@ -27,11 +24,39 @@ public class ListSortTest {
     }
 
     @Test
-    public void sortListByAlphabetic_thenOk() {
+    public void sortPokemonsListByLength_thenOk() {
+
+        Pokemon pikachu = new Pokemon("pikachu");
+        Pokemon charmander = new Pokemon("charmander");
+        Pokemon articuno = new Pokemon("articuno");
+
+        List<Pokemon> stringsList = Arrays.asList(
+                pikachu, charmander, articuno
+        );
+        listSort.selectSort(stringsList, SortTypes.length);
+        assertThat(stringsList, equalTo(Arrays.asList(pikachu, articuno, charmander)));
+    }
+
+    @Test
+    public void sortStringsListByAlphabetic_thenOk() {
 
         List<String> stringsList = Arrays.asList("Patrick", "Aiden", "Jackson", "Danielle");
         listSort.selectSort(stringsList, SortTypes.alphabetical);
         assertThat(stringsList, equalTo(Arrays.asList("Aiden", "Danielle", "Jackson", "Patrick")));
+    }
+
+    @Test
+    public void sortPokemonsListByAlphabetic_thenOk() {
+
+        Pokemon pikachu = new Pokemon("pikachu");
+        Pokemon charmander = new Pokemon("charmander");
+        Pokemon articuno = new Pokemon("articuno");
+
+        List<Pokemon> stringsList = Arrays.asList(
+                pikachu, charmander, articuno
+        );
+        listSort.selectSort(stringsList, SortTypes.alphabetical);
+        assertThat(stringsList, equalTo(Arrays.asList(articuno, charmander, pikachu)));
     }
 
 }
